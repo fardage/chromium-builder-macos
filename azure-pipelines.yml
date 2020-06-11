@@ -1,0 +1,22 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'macOS-latest'
+
+jobs:
+- job: BuildChromium
+  timeoutInMinutes: 0
+  steps:
+  - script: ./build.sh
+    displayName: 'Run build script'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/chromium/src/out/Default/Chromium.app/'
+      ArtifactName: 'Chromium'
+      publishLocation: 'Container'
